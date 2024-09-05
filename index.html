@@ -1,107 +1,100 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenue sur mon site</title>
+    <title>Simple Chat</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        header {
-            background: linear-gradient(to right, #0072ff, #00c6ff);
-            color: #fff;
-            text-align: center;
-            padding: 2rem;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
-        header p {
-            font-size: 1.2rem;
-            margin: 0;
-        }
-        .container {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            padding: 2rem;
-            gap: 1rem;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
         }
-        .card {
-            background: #f9f9f9;
+        #chat {
             border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1rem;
-            width: 30%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #fff;
+            width: 300px;
+            height: 400px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
         }
-        .card img {
-            max-width: 100%;
-            height: auto;
-        }
-        .card h2 {
-            font-size: 1.5rem;
-            margin-top: 0;
-        }
-        .about, .contact {
-            text-align: center;
-            padding: 2rem;
-            background: #f4f4f4;
-        }
-        .about h2, .contact h2 {
-            margin-top: 0;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
+        input[type="text"] {
             width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Bienvenue sur mon site</h1>
-        <p>Explorations créatives et techniques</p>
-    </header>
+    <div id="chat"></div>
+    <input type="text" id="messageInput" placeholder="Type your message here...">
+    <button onclick="sendMessage()">Send</button>
 
-    <div class="container">
-        <div class="card">
-            <img src="programmateur-icon.png" alt="Programmateur">
-            <h2>Programmateur</h2>
-            <p>Découvrez mes projets de développement, mes langages préférés, et ce qui me passionne dans le monde du code.</p>
-        </div>
-        <div class="card">
-            <img src="ecrivain-icon.png" alt="Écrivain">
-            <h2>Écrivain</h2>
-            <p>Un aperçu de mes écrits, les genres que j'explore, et les publications en cours.</p>
-        </div>
-        <div class="card">
-            <img src="ti-icon.png" alt="Expertamateur en Texas Instruments">
-            <h2>Expertamateur en Texas Instruments</h2>
-            <p>Explorez mes projets et réalisations avec les produits Texas Instruments, ainsi que mes hacks et innovations.</p>
-        </div>
-    </div>
+    <script>
+        const apiUrl = 'https://firestore.googleapis.com/v1/projects/YOUR_PROJECT_ID/databases/(default)/documents/messages';
 
-    <section class="about">
-        <h2>À Propos de Moi</h2>
-        <p>Je suis passionné par la programmation, l'écriture, et l'exploration des produits Texas Instruments. J'aime partager mes expériences et projets avec le monde.</p>
-    </section>
+        async function fetchMessages() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                const messages = data.documents || [];
+                const chat = document.getElementById('chat');
+                chat.innerHTML = '';
+                messages.forEach(msg => {
+                    const p = document.createElement('p');
+                    p.textContent = msg.fields.text.stringValue;
+                    chat.appendChild(p);
+                });
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
+        }
 
-    <section class="contact">
-        <h2>Contact</h2>
-        <p>Vous pouvez me joindre via <a href="mailto:contact@example.com">email</a> ou me suivre sur <a href="#">mes réseaux sociaux</a>.</p>
-    </section>
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (message === '') return;
 
-    <footer>
-        <p>&copy; 2024 Mon Site Web Personnel. Tous droits réservés.</p>
-    </footer>
+            try {
+                await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fields: {
+                            text: { stringValue: message }
+                        }
+                    })
+                });
+                input.value = '';
+                fetchMessages();
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        }
+
+        // Initial fetch of messages
+        fetchMessages();
+    </script>
 </body>
 </html>
