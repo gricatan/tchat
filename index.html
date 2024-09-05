@@ -1,9 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Mon site web</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue sur mon site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(to right, #0072ff, #00c6ff);
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        header p {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+            gap: 1rem;
+        }
+        .card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            width: 30%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+        }
+        .card h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+        }
+        .about, .contact {
+            text-align: center;
+            padding: 2rem;
+            background: #f4f4f4;
+        }
+        .about h2, .contact h2 {
+            margin-top: 0;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenue sur mon site web !</h1>
+    <header>
+        <h1>Bienvenue sur mon site</h1>
+        <p>Explorations créatives et techniques</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <img src="programmateur-icon.png" alt="Programmateur">
+            <h2>Programmateur</h2>
+            <p>Découvrez mes projets de développement, mes langages préférés, et ce qui me passionne dans le monde du code.</p>
+        </div>
+        <div class="card">
+            <img src="ecrivain-icon.png" alt="Écrivain">
+            <h2>Écrivain</h2>
+            <p>Un aperçu de mes écrits, les genres que j'explore, et les publications en cours.</p>
+        </div>
+        <div class="card">
+            <img src="ti-icon.png" alt="Expertamateur en Texas Instruments">
+            <h2>Expertamateur en Texas Instruments</h2>
+            <p>Explorez mes projets et réalisations avec les produits Texas Instruments, ainsi que mes hacks et innovations.</p>
+        </div>
+    </div>
+
+    <section class="about">
+        <h2>À Propos de Moi</h2>
+        <p>Je suis passionné par la programmation, l'écriture, et l'exploration des produits Texas Instruments. J'aime partager mes expériences et projets avec le monde.</p>
+    </section>
+
+    <section class="contact">
+        <h2>Contact</h2>
+        <p>Vous pouvez me joindre via <a href="mailto:contact@example.com">email</a> ou me suivre sur <a href="#">mes réseaux sociaux</a>.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Mon Site Web Personnel. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>
